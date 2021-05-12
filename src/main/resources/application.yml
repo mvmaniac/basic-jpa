@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: basic-jpa
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    driver-class-name: org.postgresql.Driver
+    username: test
+    password: 1234
+    platform: postgresql
+
+#    url: jdbc:mysql://localhost:3306/test
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: test
+#    password: 1234
+#    platform: mysql
+
+    initialization-mode: always
+    schema: classpath:sql/schema-${spring.datasource.platform}.sql
+    data: classpath:sql/data-${spring.datasource.platform}.sql
+
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  devtools:
+    restart.enabled: false
+    livereload.enabled: true
+
+logging:
+  level:
+    io.devfactory: debug
+    org.hibernate.SQL: debug
+    #org.springframework: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
