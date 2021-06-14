@@ -1,6 +1,8 @@
 package io.devfactory.web.board.repository;
 
 import io.devfactory.web.board.domain.Board;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +21,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
   @Override
   @EntityGraph(attributePaths = "createdBy")
   Optional<Board> findById(Long id);
+
+  @EntityGraph(attributePaths = "createdBy")
+  Page<Board> findBoardsBy(Pageable pageable);
 
 }

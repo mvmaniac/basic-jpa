@@ -1,9 +1,11 @@
 package io.devfactory.web.board.api;
 
+import io.devfactory.global.common.resolver.SimplePageable;
 import io.devfactory.web.board.dto.BoardMapper;
 import io.devfactory.web.board.dto.request.BoardCreateRequestView;
 import io.devfactory.web.board.dto.request.BoardModifyRequestView;
 import io.devfactory.web.board.dto.response.BoardResponseView;
+import io.devfactory.web.board.dto.response.PageBoardsResponseView;
 import io.devfactory.web.board.service.BoardService;
 import io.devfactory.web.member.domain.Member;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,19 @@ public class BoardApi {
     return ResponseEntity.ok(BoardMapper.INSTANCE.toList(findBoards));
   }
 
+  @GetMapping("/page")
+  public ResponseEntity<PageBoardsResponseView> retrieveBoardsByPage(SimplePageable pageable) {
+    final var findPageBoards = boardService.findBoards(pageable);
+    final var pageBoards = findPageBoards.map(BoardMapper.INSTANCE::toView);
+    return ResponseEntity.ok(new PageBoardsResponseView(pageBoards.getTotalElements(), pageBoards.getTotalPages(), pageBoards.getContent()));
+  }
+
+  @GetMapping("/slice")
+  public ResponseEntity<List<BoardResponseView>> retrieveBoardsBySlice() {
+    final var findBoards = boardService.findBoardsBySlice();
+    return ResponseEntity.ok(BoardMapper.INSTANCE.toList(findBoards));
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<BoardResponseView> retrieveBoard(@PathVariable("id") Long id) {
     final var findBoard = boardService.findBoard(id);
@@ -38,7 +53,8 @@ public class BoardApi {
   }
 
   @PostMapping
-  public ResponseEntity<Map<String, Object>> createBoard(@Valid @RequestBody BoardCreateRequestView requestView) {
+  public ResponseEntity<Map<String, Object>> createBoard(
+      @Valid @RequestBody BoardCreateRequestView requestView) {
     final var savedId = boardService.createBoard(requestView.toBoard(), getTempMember());
     return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
   }

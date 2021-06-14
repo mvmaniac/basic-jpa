@@ -7,17 +7,18 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: test
     password: 1234
-    platform: postgresql
 
 #    url: jdbc:mysql://localhost:3306/test
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    username: test
 #    password: 1234
-#    platform: mysql
 
-    initialization-mode: always
-    schema: classpath:sql/schema-${spring.datasource.platform}.sql
-    data: classpath:sql/data-${spring.datasource.platform}.sql
+  sql:
+    init:
+      platform: postgresql
+#      platform: mysql
+      schema-locations: classpath:sql/schema-${spring.sql.init.platform}.sql
+      data-locations: classpath:sql/data-${spring.sql.init.platform}.sql
 
   jpa:
     open-in-view: false

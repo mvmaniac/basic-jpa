@@ -1,9 +1,13 @@
 package io.devfactory.web.board.service;
 
+import io.devfactory.global.common.resolver.SimplePageable;
 import io.devfactory.global.error.ServiceRuntimeException;
 import io.devfactory.web.board.domain.Board;
 import io.devfactory.web.board.repository.BoardRepository;
 import io.devfactory.web.member.domain.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +24,15 @@ public class BoardService {
   }
 
   public List<Board> findBoards() {
+    return boardRepository.findAll();
+  }
+
+  public Page<Board> findBoards(SimplePageable pageable) {
+    final var pageRequest = PageRequest.of(pageable.getPage(), pageable.getSize(), Sort.by(Sort.Direction.DESC, "createdDate"));
+    return boardRepository.findBoardsBy(pageRequest);
+  }
+
+  public List<Board> findBoardsBySlice() {
     return boardRepository.findAll();
   }
 

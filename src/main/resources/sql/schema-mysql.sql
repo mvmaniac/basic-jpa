@@ -8,13 +8,13 @@ create table tb_member
     username     varchar(255) null,
     password     varchar(255) null,
     grade        varchar(255) null,
-    alarm_date   datetime,
+    alarm_date   datetime(6),
     birth_day    date,
     use_yn       varchar(1) null,
     created_by   bigint null,
-    created_date datetime default current_timestamp,
+    created_date datetime(6) default current_timestamp(6),
     updated_by   bigint null,
-    updated_date datetime default current_timestamp
+    updated_date datetime(6) default current_timestamp(6)
 );
 
 create table tb_board
@@ -25,9 +25,9 @@ create table tb_board
     title        varchar(255) null,
     use_yn       varchar(1) null,
     created_by   bigint null,
-    created_date datetime default current_timestamp,
+    created_date datetime(6) default current_timestamp(6),
     updated_by   bigint null,
-    updated_date datetime default current_timestamp,
+    updated_date datetime(6) default current_timestamp(6),
     constraint fk_board_created_by foreign key (created_by) references tb_member (id),
     constraint fk_board_updated_by foreign key (updated_by) references tb_member (id)
 );
