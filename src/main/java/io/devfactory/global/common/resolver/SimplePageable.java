@@ -1,6 +1,8 @@
 package io.devfactory.global.common.resolver;
 
 import lombok.Getter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Getter
 public class SimplePageable {
@@ -27,6 +29,10 @@ public class SimplePageable {
     
     this.page = page;
     this.size = size;
+  }
+
+  public PageRequest toPageRequest(Sort sort) {
+    return PageRequest.of(page, size, sort);
   }
 
 }

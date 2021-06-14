@@ -13,15 +13,12 @@ import static org.springframework.util.StringUtils.hasText;
 public class SimplePageableMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
   private static final String DEFAULT_PAGE_PARAMETER = "page";
-
   private static final String DEFAULT_SIZE_PARAMETER = "size";
-
   private static final int DEFAULT_MAX_LIMIT_SIZE = 5;
 
   private SimplePageable fallbackPageable;
 
   private final String pageParameterName;
-
   private final String sizeParameterName;
 
   public SimplePageableMethodArgumentResolver() {
@@ -46,7 +43,7 @@ public class SimplePageableMethodArgumentResolver implements HandlerMethodArgume
     String pageParameter = webRequest.getParameter(pageParameterName);
     String sizeParameter = webRequest.getParameter(sizeParameterName);
 
-    var pageAndSizeGiven = hasText(pageParameter) && hasText(sizeParameter);
+    final var pageAndSizeGiven = hasText(pageParameter) && hasText(sizeParameter);
 
     if (!pageAndSizeGiven && fallbackPageable == null) {
       return null;
@@ -64,7 +61,7 @@ public class SimplePageableMethodArgumentResolver implements HandlerMethodArgume
   }
 
   private int parseAndApplyBoundaries(String parameter, int upper) {
-    var parsed = parseNumber(parameter);
+    final var parsed = parseNumber(parameter);
     return parsed < 0 ? 0 : Math.min(parsed, upper);
   }
 

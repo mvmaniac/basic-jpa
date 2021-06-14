@@ -6,6 +6,7 @@ import io.devfactory.web.board.dto.request.BoardCreateRequestView;
 import io.devfactory.web.board.dto.request.BoardModifyRequestView;
 import io.devfactory.web.board.dto.response.BoardResponseView;
 import io.devfactory.web.board.dto.response.PageBoardsResponseView;
+import io.devfactory.web.board.dto.response.SliceBoardsResponseView;
 import io.devfactory.web.board.service.BoardService;
 import io.devfactory.web.member.domain.Member;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +36,16 @@ public class BoardApi {
 
   @GetMapping("/page")
   public ResponseEntity<PageBoardsResponseView> retrieveBoardsByPage(SimplePageable pageable) {
-    final var findPageBoards = boardService.findBoards(pageable);
-    final var pageBoards = findPageBoards.map(BoardMapper.INSTANCE::toView);
-    return ResponseEntity.ok(new PageBoardsResponseView(pageBoards.getTotalElements(), pageBoards.getTotalPages(), pageBoards.getContent()));
+    final var findBoards = boardService.findBoardsByPage(pageable);
+    final var convertedBoards = findBoards.map(BoardMapper.INSTANCE::toView);
+    return ResponseEntity.ok(PageBoardsResponseView.of(convertedBoards));
   }
 
   @GetMapping("/slice")
-  public ResponseEntity<List<BoardResponseView>> retrieveBoardsBySlice() {
-    final var findBoards = boardService.findBoardsBySlice();
-    return ResponseEntity.ok(BoardMapper.INSTANCE.toList(findBoards));
+  public ResponseEntity<SliceBoardsResponseView> retrieveBoardsBySlice(SimplePageable pageable) {
+    final var findBoards = boardService.findBoardsBySlice(pageable);
+    final var convertedBoards = findBoards.map(BoardMapper.INSTANCE::toView);
+    return ResponseEntity.ok(SliceBoardsResponseView.of(convertedBoards));
   }
 
   @GetMapping("/{id}")
