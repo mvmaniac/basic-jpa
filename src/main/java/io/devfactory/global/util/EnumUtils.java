@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static java.util.stream.Collectors.toList;
-
 @UtilityClass
 public class EnumUtils {
 
@@ -26,7 +24,7 @@ public class EnumUtils {
     return values.stream()
         .map(value -> valueOfEnum(arrays, value).orElse(null))
         .filter(Objects::nonNull)
-        .collect(toList())
+        .toList()
         ;
   }
 
@@ -60,7 +58,7 @@ public class EnumUtils {
     return values.stream()
         .map(mapper)
         .filter(Objects::nonNull)
-        .collect(toList())
+        .toList()
         ;
   }
 
