@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositorySupport {
 
   @Override
   @EntityGraph(attributePaths = "createdBy")

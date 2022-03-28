@@ -3,18 +3,19 @@ spring:
     name: basic-jpa
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test
     username: test
     password: 1234
 
-#    url: jdbc:mysql://localhost:3306/test
 #    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/test
 #    username: test
 #    password: 1234
 
   sql:
     init:
+      mode: always
       platform: postgresql
 #      platform: mysql
       schema-locations: classpath:sql/schema-${spring.sql.init.platform}.sql

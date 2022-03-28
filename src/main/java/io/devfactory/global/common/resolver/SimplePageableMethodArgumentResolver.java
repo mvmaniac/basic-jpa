@@ -1,14 +1,13 @@
 package io.devfactory.global.common.resolver;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.annotation.Nonnull;
-
-import static org.springframework.util.StringUtils.hasText;
+import static org.springframework.util.StringUtils.hasLength;
 
 public class SimplePageableMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -36,21 +35,21 @@ public class SimplePageableMethodArgumentResolver implements HandlerMethodArgume
   }
 
   @Override
-  public Object resolveArgument(@Nonnull MethodParameter parameter,
+  public Object resolveArgument(@NonNull MethodParameter parameter,
       ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory) {
 
     String pageParameter = webRequest.getParameter(pageParameterName);
     String sizeParameter = webRequest.getParameter(sizeParameterName);
 
-    final var pageAndSizeGiven = hasText(pageParameter) && hasText(sizeParameter);
+    final var pageAndSizeGiven = hasLength(pageParameter) && hasLength(sizeParameter);
 
     if (!pageAndSizeGiven && fallbackPageable == null) {
       return null;
     }
 
-    var page = hasText(pageParameter) ? parseAndApplyBoundaries(pageParameter, Integer.MAX_VALUE) : fallbackPageable.getPage();
-    var size = hasText(sizeParameter) ? parseAndApplyBoundaries(sizeParameter, DEFAULT_MAX_LIMIT_SIZE) : fallbackPageable.getSize();
+    var page = hasLength(pageParameter) ? parseAndApplyBoundaries(pageParameter, Integer.MAX_VALUE) : fallbackPageable.getPage();
+    var size = hasLength(sizeParameter) ? parseAndApplyBoundaries(sizeParameter, DEFAULT_MAX_LIMIT_SIZE) : fallbackPageable.getSize();
 
     page = Math.max(page - 1, 0);
 

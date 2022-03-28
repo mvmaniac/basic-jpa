@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static io.devfactory.global.util.UriUtils.buildUriToRetrieveById;
 
+@SuppressWarnings("squid:S112")
 @RequestMapping("/api/boards")
 @RestController
 public class BoardApi {
@@ -31,6 +32,12 @@ public class BoardApi {
   @GetMapping
   public ResponseEntity<List<BoardResponseView>> retrieveBoards() {
     final var findBoards = boardService.findBoards();
+    return ResponseEntity.ok(BoardMapper.INSTANCE.toList(findBoards));
+  }
+
+  @GetMapping("/query")
+  public ResponseEntity<List<BoardResponseView>> retrieveBoardsWithQuery() {
+    final var findBoards = boardService.findBoardsWitQuery();
     return ResponseEntity.ok(BoardMapper.INSTANCE.toList(findBoards));
   }
 
@@ -61,6 +68,20 @@ public class BoardApi {
     return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
   }
 
+  @PostMapping("/ex")
+  public ResponseEntity<Map<String, Object>> createBoardException(
+      @Valid @RequestBody BoardCreateRequestView requestView) throws Exception {
+    final var savedId = boardService.createBoardException(requestView.toBoard(), getTempMember());
+    return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
+  }
+
+  @PostMapping("/run-ex")
+  public ResponseEntity<Map<String, Object>> createBoardRuntimeException(
+      @Valid @RequestBody BoardCreateRequestView requestView) {
+    final var savedId = boardService.createBoardRuntimeException(requestView.toBoard(), getTempMember());
+    return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
+  }
+
   @PutMapping("/{id}")
   public ResponseEntity<Map<String, Object>> modifyBoard(@PathVariable("id") Long id,
       @Valid @RequestBody BoardModifyRequestView requestView) {
@@ -68,9 +89,37 @@ public class BoardApi {
     return ResponseEntity.ok(Map.of("id", changedId));
   }
 
+  @PutMapping("/query/{id}")
+  public ResponseEntity<Map<String, Object>> modifyBoardWithQuery(@PathVariable("id") Long id,
+      @Valid @RequestBody BoardModifyRequestView requestView) {
+    final var changedId = boardService.changeBoardWithQuery(id, requestView.toBoard(), getTempMember());
+    return ResponseEntity.ok(Map.of("id", changedId));
+  }
+
+  @PutMapping("/query/{id}/ex")
+  public ResponseEntity<Map<String, Object>> modifyBoardWithQueryException(
+      @PathVariable("id") Long id,
+      @Valid @RequestBody BoardModifyRequestView requestView) throws Exception {
+    final var changedId = boardService.changeBoardWithQueryException(id, requestView.toBoard(), getTempMember());
+    return ResponseEntity.ok(Map.of("id", changedId));
+  }
+
+  @PutMapping("/query/{id}/run-ex")
+  public ResponseEntity<Map<String, Object>> modifyBoardWithQueryRuntimeException(
+      @PathVariable("id") Long id, @Valid @RequestBody BoardModifyRequestView requestView) {
+    final var changedId = boardService.changeBoardWithQueryRuntimeException(id, requestView.toBoard(), getTempMember());
+    return ResponseEntity.ok(Map.of("id", changedId));
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> removeBoard(@PathVariable("id") Long id) {
     boardService.deleteBoard(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("/query/{id}")
+  public ResponseEntity<Object> removeBoardWithQuery(@PathVariable("id") Long id) {
+    boardService.deleteBoardWithQuery(id);
     return ResponseEntity.noContent().build();
   }
 

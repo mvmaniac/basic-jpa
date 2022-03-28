@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@SuppressWarnings({"ClassCanBeRecord", "squid:S112"})
 @Transactional(readOnly = true)
 @Service
 public class BoardService {
@@ -25,6 +26,10 @@ public class BoardService {
 
   public List<Board> findBoards() {
     return boardRepository.findAll();
+  }
+
+  public List<Board> findBoardsWitQuery() {
+    return boardRepository.qFindAll();
   }
 
   public Page<Board> findBoardsByPage(SimplePageable pageable) {
@@ -49,6 +54,22 @@ public class BoardService {
   }
 
   @Transactional
+  public Long createBoardException(Board board, Member member) throws Exception {
+    board.updateMember(member);
+    final var savedBoard = boardRepository.save(board);
+    throwException();
+    return savedBoard.getId();
+  }
+
+  @Transactional
+  public Long createBoardRuntimeException(Board board, Member member) {
+    board.updateMember(member);
+    final var savedBoard = boardRepository.save(board);
+    throwRuntimeException();
+    return savedBoard.getId();
+  }
+
+  @Transactional
   public Long changeBoard(Long id, Board board, Member member) {
     final var findBoard = findBoardInternal(id);
     findBoard.changeBoard(board, member);
@@ -56,12 +77,48 @@ public class BoardService {
   }
 
   @Transactional
+  public Long changeBoardWithQuery(Long id, Board board, Member member) {
+    board.changeBoard(board, member);
+    boardRepository.qChangeBoard(id, board);
+    return id;
+  }
+
+  @Transactional
+  public Long changeBoardWithQueryException(Long id, Board board, Member member) throws Exception {
+    board.changeBoard(board, member);
+    boardRepository.qChangeBoard(id, board);
+    throwException();
+    return id;
+  }
+
+  @Transactional
+  public Long changeBoardWithQueryRuntimeException(Long id, Board board, Member member) {
+    board.changeBoard(board, member);
+    boardRepository.qChangeBoard(id, board);
+    throwRuntimeException();
+    return id;
+  }
+
+  @Transactional
   public void deleteBoard(Long id) {
+    boardRepository.deleteById(id);
+  }
+
+  @Transactional
+  public void deleteBoardWithQuery(Long id) {
     boardRepository.deleteById(id);
   }
 
   private Board findBoardInternal(Long id) {
     return boardRepository.findById(id).orElseThrow(ServiceRuntimeException::new);
+  }
+
+  private void throwException() throws Exception {
+    throw new Exception("postgresql 에러 발생");
+  }
+
+  private void throwRuntimeException() {
+    throw new ServiceRuntimeException("postgresql 런타임 에러 발생");
   }
 
 }

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static io.devfactory.global.util.UriUtils.buildUriToRetrieveById;
 
+@SuppressWarnings("squid:S112")
 @RequestMapping("/api/members")
 @RestController
 public class MemberApi {
@@ -30,6 +31,12 @@ public class MemberApi {
     return ResponseEntity.ok(MemberMapper.INSTANCE.toList(findMembers));
   }
 
+  @GetMapping("/query")
+  public ResponseEntity<List<MemberResponseView>> retrieveMembersWithQuery() {
+    final var findMembers = memberService.findMembersWithQuery();
+    return ResponseEntity.ok(MemberMapper.INSTANCE.toList(findMembers));
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<MemberResponseView> retrieveMember(@PathVariable("id") Long id) {
     final var findMember = memberService.findMember(id);
@@ -43,6 +50,20 @@ public class MemberApi {
     return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
   }
 
+  @PostMapping("/ex")
+  public ResponseEntity<Map<String, Long>> createMemberException(
+      @Valid @RequestBody MemberCreateRequestView requestView) throws Exception {
+    final var savedId = memberService.saveMemberException(requestView.toMember());
+    return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
+  }
+
+  @PostMapping("/run-ex")
+  public ResponseEntity<Map<String, Long>> createMemberRuntimeException(
+      @Valid @RequestBody MemberCreateRequestView requestView) {
+    final var savedId = memberService.saveMemberRuntimeException(requestView.toMember());
+    return ResponseEntity.created(buildUriToRetrieveById(savedId)).body(Map.of("id", savedId));
+  }
+
   @PutMapping("/{id}")
   public ResponseEntity<Map<String, Long>> modifyMember(@PathVariable("id") Long id,
       @Valid @RequestBody MemberModifyRequestView requestView) {
@@ -50,9 +71,37 @@ public class MemberApi {
     return ResponseEntity.ok(Map.of("id", changedId));
   }
 
+  @PutMapping("/query/{id}")
+  public ResponseEntity<Map<String, Long>> modifyMemberWithQuery(@PathVariable("id") Long id,
+      @Valid @RequestBody MemberModifyRequestView requestView) {
+    final var changedId = memberService.changeMemberWithQuery(id, requestView.toMember());
+    return ResponseEntity.ok(Map.of("id", changedId));
+  }
+
+  @PutMapping("/query/{id}/ex")
+  public ResponseEntity<Map<String, Long>> modifyMemberWithQueryException(
+      @PathVariable("id") Long id,
+      @Valid @RequestBody MemberModifyRequestView requestView) throws Exception {
+    final var changedId = memberService.changeMemberWithQueryException(id, requestView.toMember());
+    return ResponseEntity.ok(Map.of("id", changedId));
+  }
+
+  @PutMapping("/query/{id}/run-ex")
+  public ResponseEntity<Map<String, Long>> modifyMemberWithQueryRuntimeException(
+      @PathVariable("id") Long id, @Valid @RequestBody MemberModifyRequestView requestView) {
+    final var changedId = memberService.changeMemberWithQueryRuntimeException(id, requestView.toMember());
+    return ResponseEntity.ok(Map.of("id", changedId));
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> removeMember(@PathVariable("id") Long id) {
     memberService.deleteMember(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("/query/{id}")
+  public ResponseEntity<Object> removeMemberWithQuery(@PathVariable("id") Long id) {
+    memberService.deleteMemberWithQuery(id);
     return ResponseEntity.noContent().build();
   }
 
