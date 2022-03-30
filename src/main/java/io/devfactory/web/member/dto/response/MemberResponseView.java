@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class MemberResponseView {
   

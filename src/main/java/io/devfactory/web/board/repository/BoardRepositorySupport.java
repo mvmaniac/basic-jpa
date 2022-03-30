@@ -1,6 +1,6 @@
 package io.devfactory.web.board.repository;
 
-import io.devfactory.web.board.domain.Board;
+import io.devfactory.web.board.domain.mysql.Board;
 
 import java.util.List;
 

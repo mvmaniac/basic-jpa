@@ -1,6 +1,6 @@
 package io.devfactory.web.member.dto;
 
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.member.domain.mysql.Member;
 import io.devfactory.web.member.dto.request.MemberCreateRequestView;
 import io.devfactory.web.member.dto.request.MemberModifyRequestView;
 import io.devfactory.web.member.dto.response.MemberResponseView;

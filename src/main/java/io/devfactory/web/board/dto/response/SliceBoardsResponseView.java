@@ -5,6 +5,7 @@ import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
+@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class SliceBoardsResponseView {
 

@@ -1,6 +1,6 @@
 package io.devfactory.web.board.dto;
 
-import io.devfactory.web.board.domain.Board;
+import io.devfactory.web.board.domain.mysql.Board;
 import io.devfactory.web.board.dto.request.BoardCreateRequestView;
 import io.devfactory.web.board.dto.request.BoardModifyRequestView;
 import io.devfactory.web.board.dto.response.BoardResponseView;

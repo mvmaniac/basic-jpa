@@ -1,25 +1,24 @@
 package io.devfactory.web.board.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.devfactory.web.board.domain.Board;
+import io.devfactory.web.board.domain.mysql.Board;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static io.devfactory.web.board.domain.QBoard.board;
-import static io.devfactory.web.member.domain.QMember.member;
-
+import static io.devfactory.web.board.domain.mysql.QBoard.board;
+import static io.devfactory.web.member.domain.mysql.QMember.member;
 
 @RequiredArgsConstructor
 public class BoardRepositorySupportImpl implements BoardRepositorySupport {
 
-  private final JPAQueryFactory jpaQueryFactory;
+  private final JPAQueryFactory mysqlJpaQueryFactory;
 
   @Override
   public List<Board> qFindAll() {
     // @formatter:off
-    return jpaQueryFactory
+    return mysqlJpaQueryFactory
         .selectFrom(board)
         .innerJoin(board.createdBy, member)
           .fetchJoin()
@@ -30,11 +29,11 @@ public class BoardRepositorySupportImpl implements BoardRepositorySupport {
   @Override
   public void qChangeBoard(Long id, Board changedBoard) {
     // @formatter:off
-    jpaQueryFactory
+    mysqlJpaQueryFactory
       .update(board)
         .set(board.title, changedBoard.getTitle())
         .set(board.contents, changedBoard.getContents())
-        .set(board.updatedBy, changedBoard.getCreatedBy())
+        .set(board.updatedBy, changedBoard.getUpdatedBy())
         .set(board.updatedDate, LocalDateTime.now())
       .where(board.id.eq(id))
       .execute();
@@ -44,7 +43,7 @@ public class BoardRepositorySupportImpl implements BoardRepositorySupport {
   @Override
   public void qDeleteById(Long id) {
     // @formatter:off
-    jpaQueryFactory
+    mysqlJpaQueryFactory
       .delete(board)
       .where(board.id.eq(id))
       .execute();

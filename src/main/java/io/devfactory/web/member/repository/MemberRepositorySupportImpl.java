@@ -1,28 +1,28 @@
 package io.devfactory.web.member.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.member.domain.mysql.Member;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static io.devfactory.web.member.domain.QMember.member;
+import static io.devfactory.web.member.domain.mysql.QMember.member;
 
 @RequiredArgsConstructor
 public class MemberRepositorySupportImpl implements MemberRepositorySupport {
 
-  private final JPAQueryFactory jpaQueryFactory;
+  private final JPAQueryFactory mysqlJpaQueryFactory;
 
   @Override
   public List<Member> qFindAll() {
-    return jpaQueryFactory.selectFrom(member).fetch();
+    return mysqlJpaQueryFactory.selectFrom(member).fetch();
   }
 
   @Override
   public void qChangeMember(Long id, Member changedMember) {
     // @formatter:off
-    jpaQueryFactory
+    mysqlJpaQueryFactory
       .update(member)
         .set(member.email, changedMember.getEmail())
         .set(member.username, changedMember.getUsername())
@@ -40,7 +40,7 @@ public class MemberRepositorySupportImpl implements MemberRepositorySupport {
   @Override
   public void qDeleteById(Long id) {
     // @formatter:off
-    jpaQueryFactory
+    mysqlJpaQueryFactory
       .delete(member)
       .where(member.id.eq(id))
       .execute();

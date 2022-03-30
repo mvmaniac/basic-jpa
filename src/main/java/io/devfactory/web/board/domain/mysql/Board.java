@@ -1,8 +1,9 @@
-package io.devfactory.web.board.domain;
+package io.devfactory.web.board.domain.mysql;
 
 import io.devfactory.global.constant.Yn;
 import io.devfactory.global.model.BaseTimeEntity;
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.board.domain.BoardType;
+import io.devfactory.web.member.domain.mysql.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,6 @@ import static lombok.AccessLevel.PROTECTED;
 public class Board extends BaseTimeEntity {
 
   @Id
-//  @GeneratedValue(strategy = SEQUENCE, generator = "seq_board_gen")
-//  @SequenceGenerator(name = "seq_board_gen", sequenceName = "seq_board", allocationSize = 1)
   @GeneratedValue(strategy = IDENTITY)
   private Long id;
 

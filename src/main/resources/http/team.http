@@ -1,0 +1,91 @@
+### 팀 등록
+POST http://localhost:8080/api/teams
+Content-Type: application/json
+
+{
+  "title": "제목이다",
+  "description": "설명이다",
+  "teamType": "SPORTS"
+}
+
+### 팀 등록 (Exception)
+POST http://localhost:8080/api/teams/ex
+Content-Type: application/json
+
+{
+  "title": "제목이다 ex",
+  "description": "설명이다 ex",
+  "teamType": "SPORTS"
+}
+
+### 팀 등록 (RuntimeException)
+POST http://localhost:8080/api/teams/run-ex
+Content-Type: application/json
+
+{
+  "title": "제목이다 run-ex",
+  "description": "설명이다 run-ex",
+  "teamType": "SPORTS"
+}
+
+### 팀 전체 목록 조회
+GET http://localhost:8080/api/teams
+Content-Type: application/json
+
+### 팀 전체 목록 조회 (Querydsl)
+GET http://localhost:8080/api/teams/query
+Content-Type: application/json
+
+### 팀 조회
+GET http://localhost:8080/api/teams/1
+Content-Type: application/json
+
+### 팀 수정
+PUT http://localhost:8080/api/teams/1
+Content-Type: application/json
+
+{
+  "title": "제목수정이다",
+  "description": "설명수정이다",
+  "teamType": "SPORTS",
+  "useYn": "Y"
+}
+
+### 팀 수정 (Querydsl)
+PUT http://localhost:8080/api/teams/query/1
+Content-Type: application/json
+
+{
+  "title": "제목수정이다 query",
+  "description": "설명수정이다 query",
+  "teamType": "SPORTS",
+  "useYn": "Y"
+}
+
+### 팀 수정 (Querydsl, Exception)
+PUT http://localhost:8080/api/teams/query/1/ex
+Content-Type: application/json
+
+{
+  "title": "제목수정이다 query ex",
+  "description": "설명수정이다 query ex",
+  "teamType": "SPORTS",
+  "useYn": "Y"
+}
+
+### 팀 수정 (Querydsl, RunteimException)
+PUT http://localhost:8080/api/teams/query/1/run-ex
+Content-Type: application/json
+
+{
+  "title": "제목수정이다 query run-ex",
+  "description": "내용수정이다 query run-ex",
+  "teamType": "SPORTS",
+  "useYn": "Y"
+}
+
+### 팀 삭제
+DELETE http://localhost:8080/api/teams/1
+
+### 팀 삭제 (Querydsl)
+DELETE http://localhost:8080/api/teams/query/2

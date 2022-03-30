@@ -1,7 +1,9 @@
-package io.devfactory.web.member.domain;
+package io.devfactory.web.member.domain.mysql;
 
 import io.devfactory.global.constant.Yn;
 import io.devfactory.global.model.BaseTimeEntity;
+import io.devfactory.web.member.domain.GardeConvertor;
+import io.devfactory.web.member.domain.Grade;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,6 @@ import static java.util.Objects.nonNull;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
-import static javax.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 
@@ -27,8 +28,6 @@ import static lombok.AccessLevel.PROTECTED;
 public class Member extends BaseTimeEntity {
 
   @Id
-//  @GeneratedValue(strategy = SEQUENCE, generator = "seq_member_gen")
-//  @SequenceGenerator(name = "seq_member_gen", sequenceName = "seq_member", allocationSize = 1)
   @GeneratedValue(strategy = IDENTITY)
   private Long id;
 
@@ -85,8 +84,9 @@ public class Member extends BaseTimeEntity {
     return member;
   }
 
-  // TODO:[yhs] 인증을 통한 updatedBy 수정 해보기
+  // TODO: 인증을 통한 updatedBy 수정 해보기
   public void changeMember(Member member) {
+    this.email = member.getEmail();
     this.username = member.getUsername();
     this.password = member.getPassword();
     this.password = member.getPassword();

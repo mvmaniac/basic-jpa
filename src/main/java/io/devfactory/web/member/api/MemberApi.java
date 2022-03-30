@@ -27,20 +27,20 @@ public class MemberApi {
 
   @GetMapping
   public ResponseEntity<List<MemberResponseView>> retrieveMembers() {
-    final var findMembers = memberService.findMembers();
-    return ResponseEntity.ok(MemberMapper.INSTANCE.toList(findMembers));
+    final var foundMembers = memberService.findMembers();
+    return ResponseEntity.ok(MemberMapper.INSTANCE.toList(foundMembers));
   }
 
   @GetMapping("/query")
   public ResponseEntity<List<MemberResponseView>> retrieveMembersWithQuery() {
-    final var findMembers = memberService.findMembersWithQuery();
-    return ResponseEntity.ok(MemberMapper.INSTANCE.toList(findMembers));
+    final var foundMembers = memberService.findMembersWithQuery();
+    return ResponseEntity.ok(MemberMapper.INSTANCE.toList(foundMembers));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<MemberResponseView> retrieveMember(@PathVariable("id") Long id) {
-    final var findMember = memberService.findMember(id);
-    return ResponseEntity.ok(MemberMapper.INSTANCE.toView(findMember));
+    final var foundMember = memberService.findMember(id);
+    return ResponseEntity.ok(MemberMapper.INSTANCE.toView(foundMember));
   }
 
   @PostMapping

@@ -1,20 +1,20 @@
 package io.devfactory.web.board.service;
 
+import io.devfactory.global.common.annotation.MysqlTransaction;
 import io.devfactory.global.common.resolver.SimplePageable;
 import io.devfactory.global.error.ServiceRuntimeException;
-import io.devfactory.web.board.domain.Board;
+import io.devfactory.web.board.domain.mysql.Board;
 import io.devfactory.web.board.repository.BoardRepository;
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.member.domain.mysql.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @SuppressWarnings({"ClassCanBeRecord", "squid:S112"})
-@Transactional(readOnly = true)
+@MysqlTransaction
 @Service
 public class BoardService {
 
@@ -46,14 +46,14 @@ public class BoardService {
     return findBoardInternal(id);
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long createBoard(Board board, Member member) {
     board.updateMember(member);
     final var savedBoard = boardRepository.save(board);
     return savedBoard.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long createBoardException(Board board, Member member) throws Exception {
     board.updateMember(member);
     final var savedBoard = boardRepository.save(board);
@@ -61,7 +61,7 @@ public class BoardService {
     return savedBoard.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long createBoardRuntimeException(Board board, Member member) {
     board.updateMember(member);
     final var savedBoard = boardRepository.save(board);
@@ -69,21 +69,21 @@ public class BoardService {
     return savedBoard.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeBoard(Long id, Board board, Member member) {
     final var findBoard = findBoardInternal(id);
     findBoard.changeBoard(board, member);
     return findBoard.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeBoardWithQuery(Long id, Board board, Member member) {
     board.changeBoard(board, member);
     boardRepository.qChangeBoard(id, board);
     return id;
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeBoardWithQueryException(Long id, Board board, Member member) throws Exception {
     board.changeBoard(board, member);
     boardRepository.qChangeBoard(id, board);
@@ -91,7 +91,7 @@ public class BoardService {
     return id;
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeBoardWithQueryRuntimeException(Long id, Board board, Member member) {
     board.changeBoard(board, member);
     boardRepository.qChangeBoard(id, board);
@@ -99,14 +99,14 @@ public class BoardService {
     return id;
   }
 
-  @Transactional
+  @MysqlTransaction
   public void deleteBoard(Long id) {
     boardRepository.deleteById(id);
   }
 
-  @Transactional
+  @MysqlTransaction
   public void deleteBoardWithQuery(Long id) {
-    boardRepository.deleteById(id);
+    boardRepository.qDeleteById(id);
   }
 
   private Board findBoardInternal(Long id) {

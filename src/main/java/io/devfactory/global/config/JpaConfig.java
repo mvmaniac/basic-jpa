@@ -6,14 +6,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @EnableJpaAuditing
 @Configuration
 public class JpaConfig {
 
-  @Bean
-  public JPAQueryFactory jpaQueryFactory(EntityManager em) {
-    return new JPAQueryFactory(em);
+  @PersistenceContext(unitName = "mysqlEntityManager")
+  private EntityManager mysqlEntityManager;
+
+  @PersistenceContext(unitName = "postgresqlEntityManager")
+  private EntityManager postgresqlEntityManager;
+
+  @Bean("mysqlJpaQueryFactory")
+  public JPAQueryFactory mysqlJpaQueryFactory() {
+    return new JPAQueryFactory(mysqlEntityManager);
+  }
+
+  @Bean("postgresqlJpaQueryFactory")
+  public JPAQueryFactory postgresqlJpaQueryFactory() {
+    return new JPAQueryFactory(postgresqlEntityManager);
   }
 
 }

@@ -1,6 +1,6 @@
 package io.devfactory.web.member.dto.request;
 
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.member.domain.mysql.Member;
 import io.devfactory.web.member.dto.MemberMapper;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +8,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class MemberCreateRequestView {
 

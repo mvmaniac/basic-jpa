@@ -1,6 +1,7 @@
 package io.devfactory.web.board.repository;
 
-import io.devfactory.web.board.domain.Board;
+import io.devfactory.global.common.annotation.MysqlRepository;
+import io.devfactory.web.board.domain.mysql.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
+@MysqlRepository
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositorySupport {
 
   @Override

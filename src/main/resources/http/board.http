@@ -53,7 +53,7 @@ PUT http://localhost:8080/api/boards/1
 Content-Type: application/json
 
 {
-  "title": "제목4수정이다",
+  "title": "제목수정이다",
   "contents": "내용수정이다"
 }
 
@@ -62,7 +62,7 @@ PUT http://localhost:8080/api/boards/query/1
 Content-Type: application/json
 
 {
-  "title": "제목4수정이다 query",
+  "title": "제목수정이다 query",
   "contents": "내용수정이다 query"
 }
 
@@ -71,7 +71,7 @@ PUT http://localhost:8080/api/boards/query/1/ex
 Content-Type: application/json
 
 {
-  "title": "제목4수정이다 query ex",
+  "title": "제목수정이다 query ex",
   "contents": "내용수정이다 query ex"
 }
 
@@ -80,7 +80,7 @@ PUT http://localhost:8080/api/boards/query/1/run-ex
 Content-Type: application/json
 
 {
-  "title": "제목4수정이다 query run-ex",
+  "title": "제목수정이다 query run-ex",
   "contents": "내용수정이다 query run-ex"
 }
 

@@ -1,7 +1,6 @@
 package io.devfactory.web.member.repository;
 
-import io.devfactory.web.member.domain.Member;
-import org.springframework.data.jpa.repository.JpaRepository;
+import io.devfactory.web.member.domain.mysql.Member;
 
 import java.util.List;
 

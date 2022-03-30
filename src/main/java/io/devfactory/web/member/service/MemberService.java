@@ -1,15 +1,15 @@
 package io.devfactory.web.member.service;
 
+import io.devfactory.global.common.annotation.MysqlTransaction;
 import io.devfactory.global.error.ServiceRuntimeException;
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.member.domain.mysql.Member;
 import io.devfactory.web.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @SuppressWarnings({"ClassCanBeRecord", "squid:S112"})
-@Transactional(readOnly = true)
+@MysqlTransaction(readOnly = true)
 @Service
 public class MemberService {
 
@@ -31,59 +31,59 @@ public class MemberService {
     return findMemberInternal(id);
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long saveMember(Member member) {
     final var savedMember = memberRepository.save(member);
     return savedMember.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long saveMemberException(Member member) throws Exception {
     final var savedMember = memberRepository.save(member);
     throwException();
     return savedMember.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long saveMemberRuntimeException(Member member) {
     final var savedMember = memberRepository.save(member);
     throwRuntimeException();
     return savedMember.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeMember(Long id, Member member) {
-    final var findMember = findMemberInternal(id);
-    findMember.changeMember(member);
-    return findMember.getId();
+    final var foundMember = findMemberInternal(id);
+    foundMember.changeMember(member);
+    return foundMember.getId();
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeMemberWithQuery(Long id, Member member) {
     memberRepository.qChangeMember(id, member);
     return id;
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeMemberWithQueryException(Long id, Member member) throws Exception {
     memberRepository.qChangeMember(id, member);
     throwException();
     return id;
   }
 
-  @Transactional
+  @MysqlTransaction
   public Long changeMemberWithQueryRuntimeException(Long id, Member member) {
     memberRepository.qChangeMember(id, member);
     throwRuntimeException();
     return id;
   }
 
-  @Transactional
+  @MysqlTransaction
   public void deleteMember(Long id) {
     memberRepository.deleteById(id);
   }
 
-  @Transactional
+  @MysqlTransaction
   public void deleteMemberWithQuery(Long id) {
     memberRepository.qDeleteById(id);
   }

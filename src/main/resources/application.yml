@@ -3,37 +3,52 @@ spring:
     name: basic-jpa
 
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/test
-    username: test
-    password: 1234
-
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/test
-#    username: test
-#    password: 1234
-
-  sql:
-    init:
-      mode: always
-      platform: postgresql
-#      platform: mysql
-      schema-locations: classpath:sql/schema-${spring.sql.init.platform}.sql
-      data-locations: classpath:sql/data-${spring.sql.init.platform}.sql
+    hikari:
+      mysql :
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/test?useSSL=false&&allowMultiQueries=true&rewriteBatchedStatements=true
+        username: ENC[Fu9sG8qRC8kIweIS4Lhk2G69ZWTqXt+GyAhdzAorwE7uwXk2iUEfOqZtdnKcp/4+]
+        password: ENC[8Kywn+mJcRbX7CFBlRnUsJes74ycM/3VDezaCd4elPruJK99yYwJvF9FC+ZSeLSE]
+        pool-name: MYSQL_DB
+        minimum-idle: 1
+        maximum-pool-size: 5
+      postgresql:
+        driver-class-name: org.postgresql.Driver
+        jdbc-url: jdbc:postgresql://localhost:5432/test
+        username: ENC[Fu9sG8qRC8kIweIS4Lhk2G69ZWTqXt+GyAhdzAorwE7uwXk2iUEfOqZtdnKcp/4+]
+        password: ENC[8Kywn+mJcRbX7CFBlRnUsJes74ycM/3VDezaCd4elPruJK99yYwJvF9FC+ZSeLSE]
+        pool-name: POSTGRESQL_DB
+        minimum-idle: 1
+        maximum-pool-size: 5
 
   jpa:
     open-in-view: false
-    show-sql: false
-    hibernate:
-      ddl-auto: validate
     properties:
       hibernate:
+        default_batch_fetch_size: 16
+        id.new_generator_mappings: true
         format_sql: true
         show_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: validate
 
   devtools:
     restart.enabled: false
     livereload.enabled: true
+
+jasypt:
+  encryptor:
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    key-obtention-iterations: 1000
+    pool-size: 1
+    provider-name: SunJCE
+    salt-generator-classname: org.jasypt.salt.RandomSaltGenerator
+    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
+    string-output-type: base64
+    property:
+      prefix: 'ENC['
+      suffix: ']'
 
 logging:
   level:
@@ -45,3 +60,14 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+sql:
+  init:
+    mysql:
+      locations:
+        - sql/schema-mysql.sql
+        - sql/data-mysql.sql
+    postgresql:
+      locations:
+        - sql/schema-postgresql.sql
+        - sql/data-postgresql.sql

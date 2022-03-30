@@ -1,11 +1,12 @@
 package io.devfactory.web.board.dto.request;
 
-import io.devfactory.web.board.domain.Board;
+import io.devfactory.web.board.domain.mysql.Board;
 import io.devfactory.web.board.domain.BoardType;
 import io.devfactory.web.board.dto.BoardMapper;
 import lombok.Builder;
 import lombok.Getter;
 
+@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class BoardCreateRequestView {
 

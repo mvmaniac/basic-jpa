@@ -8,7 +8,7 @@ import io.devfactory.web.board.dto.response.BoardResponseView;
 import io.devfactory.web.board.dto.response.PageBoardsResponseView;
 import io.devfactory.web.board.dto.response.SliceBoardsResponseView;
 import io.devfactory.web.board.service.BoardService;
-import io.devfactory.web.member.domain.Member;
+import io.devfactory.web.member.domain.mysql.Member;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,28 +37,28 @@ public class BoardApi {
 
   @GetMapping("/query")
   public ResponseEntity<List<BoardResponseView>> retrieveBoardsWithQuery() {
-    final var findBoards = boardService.findBoardsWitQuery();
-    return ResponseEntity.ok(BoardMapper.INSTANCE.toList(findBoards));
+    final var foundBoards = boardService.findBoardsWitQuery();
+    return ResponseEntity.ok(BoardMapper.INSTANCE.toList(foundBoards));
   }
 
   @GetMapping("/page")
   public ResponseEntity<PageBoardsResponseView> retrieveBoardsByPage(SimplePageable pageable) {
-    final var findBoards = boardService.findBoardsByPage(pageable);
-    final var convertedBoards = findBoards.map(BoardMapper.INSTANCE::toView);
+    final var foundBoards = boardService.findBoardsByPage(pageable);
+    final var convertedBoards = foundBoards.map(BoardMapper.INSTANCE::toView);
     return ResponseEntity.ok(PageBoardsResponseView.of(convertedBoards));
   }
 
   @GetMapping("/slice")
   public ResponseEntity<SliceBoardsResponseView> retrieveBoardsBySlice(SimplePageable pageable) {
-    final var findBoards = boardService.findBoardsBySlice(pageable);
-    final var convertedBoards = findBoards.map(BoardMapper.INSTANCE::toView);
+    final var foundBoards = boardService.findBoardsBySlice(pageable);
+    final var convertedBoards = foundBoards.map(BoardMapper.INSTANCE::toView);
     return ResponseEntity.ok(SliceBoardsResponseView.of(convertedBoards));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<BoardResponseView> retrieveBoard(@PathVariable("id") Long id) {
-    final var findBoard = boardService.findBoard(id);
-    return ResponseEntity.ok(BoardMapper.INSTANCE.toView(findBoard));
+    final var foundBoard = boardService.findBoard(id);
+    return ResponseEntity.ok(BoardMapper.INSTANCE.toView(foundBoard));
   }
 
   @PostMapping
