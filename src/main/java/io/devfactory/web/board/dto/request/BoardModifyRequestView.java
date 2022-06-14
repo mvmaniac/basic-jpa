@@ -5,7 +5,6 @@ import io.devfactory.web.board.dto.BoardMapper;
 import lombok.Builder;
 import lombok.Getter;
 
-@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class BoardModifyRequestView {
 

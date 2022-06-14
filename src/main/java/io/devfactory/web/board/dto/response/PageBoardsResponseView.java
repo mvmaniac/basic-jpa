@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class PageBoardsResponseView {
 

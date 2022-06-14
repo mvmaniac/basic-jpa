@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@SuppressWarnings({"ClassCanBeRecord", "squid:S112"})
+@SuppressWarnings({"squid:S112"})
 @MysqlTransaction(readOnly = true)
 @Service
 public class MemberService {

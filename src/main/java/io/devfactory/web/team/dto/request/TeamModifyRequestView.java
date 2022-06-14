@@ -7,7 +7,6 @@ import io.devfactory.web.team.dto.TeamMapper;
 import lombok.Builder;
 import lombok.Getter;
 
-@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class TeamModifyRequestView {
 
