@@ -33,9 +33,9 @@ spring:
       hibernate:
         default_batch_fetch_size: 16
         id.new_generator_mappings: true
-        format_sql: true
-        show_sql: true
-        use_sql_comments: true
+        format_sql: false
+        show_sql: false
+        use_sql_comments: false
     hibernate:
       ddl-auto: validate
 
@@ -59,9 +59,10 @@ jasypt:
 logging:
   level:
     io.devfactory: debug
+
+    # jps 기본 로그 설정 (show-sql 옵션은 권장하지 않음)
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
-    #org.springframework: debug
 
 decorator:
   datasource:
