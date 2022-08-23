@@ -1,13 +1,13 @@
 plugins {
-  id 'org.springframework.boot' version '2.6.3'
-  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'org.springframework.boot' version '2.7.5'
+  id 'io.spring.dependency-management' version '1.0.15.RELEASE'
   id 'java'
 }
 
 group = 'io.devfactory'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_18
+targetCompatibility = JavaVersion.VERSION_18
 
 configurations {
   compileOnly {
@@ -24,10 +24,11 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+  implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
-  implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-  annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+  implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
   implementation 'com.querydsl:querydsl-jpa'
   annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
@@ -51,6 +52,6 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-test {
+tasks.named('test') {
   useJUnitPlatform()
 }
