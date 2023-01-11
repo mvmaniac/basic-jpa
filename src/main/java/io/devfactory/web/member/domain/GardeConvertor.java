@@ -2,8 +2,10 @@ package io.devfactory.web.member.domain;
 
 import io.devfactory.global.util.EnumUtils;
 
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
+@Converter
 public class GardeConvertor implements AttributeConverter<Grade, String> {
 
   @Override
