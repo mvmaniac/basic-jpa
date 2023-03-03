@@ -4,9 +4,9 @@ spring:
 
   datasource:
     hikari:
-      mysql :
+      mysql:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/test?useSSL=false&&allowMultiQueries=true&rewriteBatchedStatements=true
+        jdbc-url: jdbc:mysql://localhost:3306/test?allowMultiQueries=true&rewriteBatchedStatements=true
         username: ENC[Fu9sG8qRC8kIweIS4Lhk2G69ZWTqXt+GyAhdzAorwE7uwXk2iUEfOqZtdnKcp/4+]
         password: ENC[8Kywn+mJcRbX7CFBlRnUsJes74ycM/3VDezaCd4elPruJK99yYwJvF9FC+ZSeLSE]
         pool-name: MYSQL_DB
@@ -60,9 +60,10 @@ logging:
   level:
     io.devfactory: debug
 
-    # jps 기본 로그 설정 (show-sql 옵션은 권장하지 않음)
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    # jpa 기본 로그 설정 (show-sql 옵션은 권장하지 않음),
+    # p6spy를 사용한다면 안써도 될듯(?)
+    # org.hibernate.SQL: debug
+    # org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 decorator:
   datasource:
