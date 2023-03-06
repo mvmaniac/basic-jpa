@@ -1,13 +1,13 @@
 plugins {
-  id 'org.springframework.boot' version '2.7.5'
-  id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+  id 'org.springframework.boot' version '3.1.0'
+  id 'io.spring.dependency-management' version '1.1.0'
   id 'java'
 }
 
 group = 'io.devfactory'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_18
-targetCompatibility = JavaVersion.VERSION_18
+sourceCompatibility = JavaVersion.VERSION_19
+targetCompatibility = JavaVersion.VERSION_19
 
 configurations {
   compileOnly {
@@ -24,20 +24,20 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
-  implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+  implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
-  implementation 'org.mapstruct:mapstruct:1.5.2.Final'
-  annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+  implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-  implementation 'com.querydsl:querydsl-jpa'
-  annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
-  annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+  implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+  annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
   annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+  annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
   runtimeOnly 'com.h2database:h2'
   runtimeOnly 'org.postgresql:postgresql'
-  runtimeOnly 'mysql:mysql-connector-java'
+  runtimeOnly 'com.mysql:mysql-connector-j'
 
   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -54,4 +54,15 @@ dependencies {
 
 tasks.named('test') {
   useJUnitPlatform()
+}
+
+tasks.named('compileJava') {
+  inputs.files(tasks.named('processResources'))
+}
+
+// queryDsl QDomain 경로 설정 (최신 버전 기준 eclipse의 경우 설정되어 있어야 할듯?)
+def querydslDir = "$buildDir/generated/sources/annotationProcessor/java/main"
+
+sourceSets {
+  main.java.srcDir querydslDir
 }
