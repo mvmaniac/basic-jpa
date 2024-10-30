@@ -4,11 +4,10 @@ import io.devfactory.global.constant.Yn;
 import io.devfactory.global.model.BaseTimeEntity;
 import io.devfactory.web.board.domain.BoardType;
 import io.devfactory.web.member.domain.mysql.Member;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*;
 
 import static io.devfactory.global.constant.Yn.Y;
 import static jakarta.persistence.EnumType.STRING;
@@ -27,7 +26,7 @@ public class Board extends BaseTimeEntity {
   private Long id;
 
   @Enumerated(STRING)
-  @Column
+  @Column(columnDefinition = "varchar")
   private BoardType boardType;
 
   @Column
@@ -37,7 +36,7 @@ public class Board extends BaseTimeEntity {
   private String contents;
 
   @Enumerated(STRING)
-  @Column
+  @Column(columnDefinition = "varchar")
   private Yn useYn;
 
   @ManyToOne(fetch = LAZY)

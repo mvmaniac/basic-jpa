@@ -4,20 +4,20 @@ import io.devfactory.global.constant.Yn;
 import io.devfactory.global.model.BaseTimeEntity;
 import io.devfactory.web.member.domain.GardeConvertor;
 import io.devfactory.web.member.domain.Grade;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static io.devfactory.global.constant.Yn.Y;
 import static io.devfactory.web.member.domain.Grade.NORMAL;
-import static java.util.Objects.nonNull;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.PROTECTED;
 
 
@@ -51,7 +51,7 @@ public class Member extends BaseTimeEntity {
   private Grade grade;
 
   @Enumerated(STRING)
-  @Column
+  @Column(columnDefinition = "varchar")
   private Yn useYn;
 
   // foreignKey = @ForeignKey(NO_CONSTRAINT) 로 외래키를 지정 하지 않을 수 있음
